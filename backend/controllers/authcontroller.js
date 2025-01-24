@@ -1,5 +1,6 @@
 const jwt=require("jsonwebtoken")
 const User=require("../models/User")
+const bcrypt=require("bcrypt")
 
 const SignUp =async(req,res) =>{
     const { username, email, password } = req.body;
@@ -40,3 +41,9 @@ const SignUp =async(req,res) =>{
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 }
+
+const login = async (req,res) =>{
+    
+}
+
+module.exports={SignUp} 
