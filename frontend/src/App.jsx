@@ -1,12 +1,22 @@
-import './App.css';
+// App.jsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
-function App() {
-
+const App = () => {
   return (
-    <div className='bg-blue-600'>
-      hello
-    </div>
-  )
-}
+    <div>
+        <Router>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+    </Router>
+      </div>
+  );
+};
 
-export default App
+export default App;
