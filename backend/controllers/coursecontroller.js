@@ -88,3 +88,56 @@ exports.editCourse = async (req, res) => {
     });
   }
 };
+
+// Controller to fetch all courses
+exports.getAllCourses = async (req, res) => {
+  try {
+    const courses = await Course.find().populate('instructor', 'name email'); // Adjust fields as necessary
+    res.status(200).json({
+      success: true,
+      courses,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch courses',
+      error: error.message,
+    });
+  }
+};
+
+
+// Controller to fetch questions for a specific course
+exports.getCourseQuestions = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+
+    // Fetch course and extract questions
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found',
+      });
+    }
+
+    // Extract questions from the content array
+    const questions = course.content
+      .filter((item) => item.type === 'quiz') // Filter only quiz-type content
+      .flatMap((item) => item.questions);    // Extract all questions
+
+    res.status(200).json({
+      success: true,
+      questions,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch questions',
+      error: error.message,
+    });
+  }
+};
